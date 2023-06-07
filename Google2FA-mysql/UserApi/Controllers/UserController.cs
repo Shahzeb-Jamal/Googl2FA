@@ -29,12 +29,10 @@ public class UsersController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost]
-    [Route("authenticate")]
-
-
-    public IActionResult Authenticate(User usersdata)
+    [Route("token")]
+    public IActionResult GetToken(GetJwtRequest request)
     {
-        var token = _jWTManager.Authenticate(usersdata);
+        var token = _jWTManager.GetToken(request);
 
         if (token == null)
         {

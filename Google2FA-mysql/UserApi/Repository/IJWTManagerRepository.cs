@@ -4,7 +4,7 @@ namespace UserApi.Repository
 {
     public interface IJWTManagerRepository
     {
-        Tokens Authenticate(User user);
+        Tokens GetToken(GetJwtRequest request);
     }
 }
 

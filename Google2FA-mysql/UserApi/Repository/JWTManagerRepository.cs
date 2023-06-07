@@ -20,9 +20,9 @@ namespace UserApi.Repository
         {
             this.iconfiguration = iconfiguration;
         }
-        public Tokens Authenticate(User user)
+        public Tokens GetToken(GetJwtRequest request)
         {
-            if (!UsersRecords.Any(x => x.Key == user.Username && x.Value == user.Password))
+            if (!UsersRecords.Any(x => x.Key == request.UserName && x.Value == request.Password))
             {
                 return null;
             }
@@ -34,7 +34,7 @@ namespace UserApi.Repository
             {
                 Subject = new ClaimsIdentity(new Claim[]
               {
-             new Claim(ClaimTypes.Name, user.Username)
+             new Claim(ClaimTypes.Name, request.UserName)
               }),
                 Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
