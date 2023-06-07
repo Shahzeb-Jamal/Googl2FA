@@ -1,0 +1,14 @@
+body{
+    padding-top: 7rem;
+    background: url(https://images.unsplash.com/photo-1553095066-5014bc7b7f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=871&q=80)
+     no-repeat center center fixed;
+    background-size: cover;
+}
+
+main{
+    width: 100%;
+    max-width: 400px;
+    padding: 3rem 4rem;
+    margin: auto;
+}
+
