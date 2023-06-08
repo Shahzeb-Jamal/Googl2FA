@@ -58,12 +58,7 @@ public class UsersController : ControllerBase
             QrCodeSetupImageUrl = setupInfo.QrCodeSetupImageUrl,
             UserUniqueKey = UserUniqueKey,
             TwoFAStatus = userData.TwoFAStatus
-        });
-        
-        
-        
-
-       
+        });    
     }
 
     [AllowAnonymous]

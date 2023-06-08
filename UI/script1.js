@@ -41,9 +41,16 @@ $(document).ready(function() {
               Authorization: 'Bearer ' + localStorage.getItem("username")
             },
             success: function(qrCodeResponse) {
+              console.log(qrCodeResponse);
               // Redirect to the new page with QR code URL as a parameter
-              const qrCodeUrl = qrCodeResponse.QrCodeSetupImageUrl;
-              window.location.href = "index.html?url=" + encodeURIComponent(qrCodeUrl);
+              const qrCodeUrl = qrCodeResponse.qrCodeSetupImageUrl;
+              console.log(qrCodeUrl);
+
+              window.open(encodeURIComponent(qrCodeUrl));
+
+              // window.location.href =  "https://"
+              // +qrCodeUrl;
+              //window.location.href = "https://images.unsplash.com/photo-1553095066-5014bc7b7f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=871&q=80"
             },
             error: function(xhr, textStatus, error) {
               // Handle error in fetching QR code URL
