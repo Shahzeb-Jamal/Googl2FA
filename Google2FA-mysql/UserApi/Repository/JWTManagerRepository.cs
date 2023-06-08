@@ -8,21 +8,16 @@ namespace UserApi.Repository
 {
     public class JWTManagerRepository : IJWTManagerRepository
     {
-        Dictionary<string, string> UsersRecords = new Dictionary<string, string>
-    {
-        { "user1","password1"},
-        { "user2","password2"},
-        { "user3","password3"},
-    };
+        private readonly IUserRepository _userRepository;
 
-        private readonly IConfiguration iconfiguration;
-        public JWTManagerRepository(IConfiguration iconfiguration)
+        public JWTManagerRepository(IUserRepository userRepository)
         {
-            this.iconfiguration = iconfiguration;
+            _userRepository = userRepository;
         }
         public Tokens GetToken(GetJwtRequest request)
         {
-            if (!UsersRecords.Any(x => x.Key == request.UserName && x.Value == request.Password))
+            var user = _userRepository.GetUser(request.UserName, request.Password);
+            if (user == null)
             {
                 return null;
             }

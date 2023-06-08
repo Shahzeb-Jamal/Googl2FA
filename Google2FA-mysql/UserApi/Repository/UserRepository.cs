@@ -18,5 +18,12 @@ namespace UserApi.Repository
 
             return users.FirstOrDefault(user => string.Equals(user.Username, username) && string.Equals(user.Password, password));            
         }
+
+        public User GetUser(string username)
+        {
+            var users = _userDbContext.Users.ToList();
+
+            return users.FirstOrDefault(user => string.Equals(user.Username, username));
+        }
     }
 }

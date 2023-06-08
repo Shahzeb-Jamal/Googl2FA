@@ -5,5 +5,6 @@ namespace UserApi.Repository
     public interface IUserRepository
     {
         public User GetUser(string username, string password);
+        public User GetUser(string username);
     }
 }

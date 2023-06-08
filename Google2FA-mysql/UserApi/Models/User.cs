@@ -21,5 +21,14 @@ namespace UserApi.Models
         [Required]
         [StringLength(20)]
         public string Password { get; set; }
+
+        [Column("SecretKey")]
+        [Required]
+        [StringLength(20)]
+        public string SecretKey { get; set; }
+
+        [Column("TwoFAStatus")]
+        [Required]
+        public bool TwoFAStatus { get; set; }
     }
 }

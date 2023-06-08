@@ -50,7 +50,7 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
-builder.Services.AddSingleton<IJWTManagerRepository, JWTManagerRepository>();
+builder.Services.AddScoped<IJWTManagerRepository, JWTManagerRepository>();
 
 builder.Services.AddControllers();
 
