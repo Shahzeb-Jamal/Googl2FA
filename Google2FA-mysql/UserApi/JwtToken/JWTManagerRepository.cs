@@ -3,8 +3,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using UserApi.Models;
+using UserApi.Repository;
 
-namespace UserApi.Repository
+namespace UserApi.JwtToken
 {
     public class JWTManagerRepository : IJWTManagerRepository
     {
@@ -28,13 +29,15 @@ namespace UserApi.Repository
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
-              {
-             new Claim(ClaimTypes.Name, request.UserName)
-              }),
+                {
+                    new Claim("Username", request.UserName)
+                }),
                 Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
             };
+
             var token = tokenHandler.CreateToken(tokenDescriptor);
+
             return new Tokens { Token = tokenHandler.WriteToken(token) };
 
         }

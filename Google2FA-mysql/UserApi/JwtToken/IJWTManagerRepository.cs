@@ -1,6 +1,6 @@
 ﻿using UserApi.Models;
 
-namespace UserApi.Repository
+namespace UserApi.JwtToken
 {
     public interface IJWTManagerRepository
     {

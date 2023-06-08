@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using UserApi.JwtToken;
 using UserApi.Models;
-using UserApi.Repository;
 
 [Authorize]
 [Route("api/[controller]")]

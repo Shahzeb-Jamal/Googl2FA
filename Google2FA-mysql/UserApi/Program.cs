@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using UserApi.Config;
+using UserApi.JwtToken;
 using UserApi.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
