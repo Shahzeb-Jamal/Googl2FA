@@ -1,23 +1,13 @@
-const loginForm = document.getElementById("login-form");
-const errorMsg = document.getElementById("error-msg");
-const successMsg = document.getElementById("success-msg");
-const btnSubmit = document.getElementById("btn-submit");
+$(document).ready(function() {
+  const loginForm = $("#login-form");
+  const errorMsg = $("#error-msg");
+  const successMsg = $("#success-msg");
+  const btnSubmit = $("#btn-submit");
 
-function parseJwt (token) {
-  var base64Url = token.split('.')[1];
-  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
-
-  return JSON.parse(jsonPayload);
-}
-
-
-btnSubmit.addEventListener("click" , (e) =>{
+  btnSubmit.on("click", function(e) {
     e.preventDefault();
-    const username = loginForm.username.value;
-    const password = loginForm.pwd.value;
+    const username = $("#username").val();
+    const password = $("#pwd").val();
 
     var formData = {
       userName: username,
@@ -26,54 +16,46 @@ btnSubmit.addEventListener("click" , (e) =>{
     };
 
     $.ajax({
-      url: 'https://localhost:7114/api/Users/authenticate',
+      url: 'https://localhost:7114/api/Users/token',
       type: 'POST',
       data: JSON.stringify(formData),
       contentType: "application/json",
       dataType: 'json',
       success: function(response) {
-        // Handle the response from the server
-           console.log(response);
-        if(response.success){
+        // Clear form inputs
+        loginForm[0].reset();
 
-          //successful login
-          successMsg.classList.remove("visually-hidden");
-          errorMsg.classList.add("visually-hidden");
-          console.log("successful");
+        // Store response in local storage
+        localStorage.setItem("username", response.token);
 
-          
-      
-          // Parse the JWT
-          const token = response.jwt;
-          const decodedToken = parseJwt(token);
-          console.log(decodedToken); // Access the decoded token properties
+        // Show success message
+        successMsg.removeClass("visually-hidden");
+        errorMsg.addClass("visually-hidden");
 
-          // Store the token in local storage
-          localStorage.setItem('token', token);
-
-          //to print token on console
-          console.log(localStorage.getItem('token'))
-
-          //window.location.replace("/index.html");
+        // Send another request to get QR code URL if token exists
+        if (localStorage.getItem("username")) {
+          $.ajax({
+            url: 'https://localhost:7114/api/Users',
+            type: 'GET',
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem("username")
+            },
+            success: function(qrCodeResponse) {
+              // Redirect to the new page with QR code URL as a parameter
+              const qrCodeUrl = qrCodeResponse.QrCodeSetupImageUrl;
+              window.location.href = "index.html?url=" + encodeURIComponent(qrCodeUrl);
+            },
+            error: function(xhr, textStatus, error) {
+              // Handle error in fetching QR code URL
+            }
+          });
         }
-        else{
-          successMsg.classList.add("visually-hidden");
-          errorMsg.classList.remove("visually-hidden");
-          console.log("failure");
-        }  
       },
-      error: function(xhr, status, error) {
-        // Handle errors
-       if (xhr.status === 401) {
-        // Handle the 401 error
-        alert("Authentication failed. Please check your credentials.");
-        console.log(xhr.responseText); // Print the response body to the console
-        console.log(error);
-        } else {
-        alert("An error occurred. Please try again.");
-        console.log(error);
+      error: function(xhr, textStatus, error) {
+        // Show error message
+        errorMsg.removeClass("visually-hidden");
+        successMsg.addClass("visually-hidden");
       }
-      }
-    });  
-})
-
+    });
+  });
+});

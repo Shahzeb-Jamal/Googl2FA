@@ -50,6 +50,7 @@ public class UsersController : ControllerBase
 
         TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
         var setupInfo = TwoFacAuth.GenerateSetupCode(_google2FAConfig.Issuer, userData.Username, ConvertSecretToBytes(UserUniqueKey, false), 300);
+        // Return response with username and 2FA QR Code Url
         return Ok(new AuthenticateUserResult
         {
             Success = true,
@@ -59,7 +60,7 @@ public class UsersController : ControllerBase
             TwoFAStatus = userData.TwoFAStatus
         });
         
-        // Return response with username and 2FA QR Code Url
+        
         
 
        
