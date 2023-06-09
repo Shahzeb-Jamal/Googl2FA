@@ -12,18 +12,21 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="stylesheet" href="login.css" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jsonwebtoken/8.5.1/jsonwebtoken.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsonwebtoken/9.0.0/decode.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/dist/jwt-decode.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jwt-decode/3.1.2/jwt-decode.min.js"></script>
+
     <title>Google2FA</title>
   </head>
   <body class="text-centre">
     <main>
-      <div class="div"></div>
       <form id="login-form">
         <!-- <div id="success_msg"></div> -->
-
-        <h3 class="mb-3">login</h3>
-        <!-- <div
+        <h3 class="mb-3">Login</h3>
+        <div
           class="alert alert-danger visually-hidden"
           role="alert"
           id="error-msg"
@@ -36,7 +39,8 @@
           id="success-msg"
         >
           successful
-        </div> -->
+        </div>
+
         <input
           type="text"
           id="username"
@@ -57,10 +61,10 @@
           id="btn-submit"
           class="btn btn-primary btn-lg btn-block"
         >
-          login
+          Login
         </button>
       </form>
     </main>
-    <script src="script.js"></script>
+    <script src="login.js"></script>
   </body>
 </html>

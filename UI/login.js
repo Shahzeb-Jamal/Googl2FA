@@ -46,11 +46,11 @@ $(document).ready(function() {
               const qrCodeUrl = qrCodeResponse.qrCodeSetupImageUrl;
               console.log(qrCodeUrl);
 
-              window.open(encodeURIComponent(qrCodeUrl));
+              //window.open(encodeURIComponent(qrCodeUrl));
 
               // window.location.href =  "https://"
               // +qrCodeUrl;
-              //window.location.href = "https://images.unsplash.com/photo-1553095066-5014bc7b7f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=871&q=80"
+              window.location.href = "http://127.0.0.1:5501/UI/Home.html"
             },
             error: function(xhr, textStatus, error) {
               // Handle error in fetching QR code URL
