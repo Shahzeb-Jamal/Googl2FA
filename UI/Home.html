@@ -4,11 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QR Code</title>
+    <link rel="stylesheet" href="Home.css" type="text/css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body>
     <h1 id="welcome-text"></h1>
     <img id="qr-code" scr="" width="300" height="300" />
+    <form action="submit">
+      <input type="text" name="CodeDigit" id="CodeDigit" />
+      <br />
+      <input type="submit" class="btn btn-success" />
+    </form>
     <script src="Home.js"></script>
   </body>
 </html>

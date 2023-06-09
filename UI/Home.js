@@ -21,6 +21,7 @@ $(document).ready(function() {
       },
       error: function(xhr, textStatus, error) {
         // Handle error in fetching QR code URL
+        
       }
        });
   } else {

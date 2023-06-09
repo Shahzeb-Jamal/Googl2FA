@@ -27,7 +27,7 @@ public class UsersController : ControllerBase
         this._userRepository = userRepository;
         this._logger = logger;
         this._google2FAConfig = options.Value;
-        
+
     }
 
     [HttpGet]
@@ -58,7 +58,7 @@ public class UsersController : ControllerBase
             QrCodeSetupImageUrl = setupInfo.QrCodeSetupImageUrl,
             UserUniqueKey = UserUniqueKey,
             TwoFAStatus = userData.TwoFAStatus
-        });    
+        });
     }
 
     [AllowAnonymous]
@@ -77,4 +77,48 @@ public class UsersController : ControllerBase
     }
     private static byte[] ConvertSecretToBytes(string secret, bool secretIsBase32) =>
    secretIsBase32 ? Base32Encoding.ToBytes(secret) : Encoding.UTF8.GetBytes(secret);
+
+    
+    [HttpPost]
+    [Route("Validate2FACode")]
+    public IActionResult Validate2FACode([FromBody] Validate2FACodeRequest request)
+    {
+        // Retrieve token
+        string token = Request.Headers["Authorization"];
+
+        // Decode token
+        var decodedToken = BearerTokenDecoder.DecodeBearerToken(token);
+
+        // Get user name from token
+        var username = decodedToken.Claims.FirstOrDefault(c => c.Type == "Username")?.Value;
+
+        // Get user data from db using UserRepository
+        var userData = _userRepository.GetUser(username);
+
+        // Do 2FA Auth for that user
+        var userUniqueKey = userData.Username + userData.SecretKey;
+
+        TwoFactorAuthenticator twoFactorAuthenticator = new TwoFactorAuthenticator();
+        bool isValid = twoFactorAuthenticator.ValidateTwoFactorPIN(userUniqueKey, request.Google2FACode, false);
+
+        // Return response with status and UserUniqueKey
+        if (isValid)
+        {
+            return Ok(new Validate2FACodeResponse
+            {
+                Success = true,
+                
+            });
+        }
+        else
+        {
+            return Unauthorized(new Validate2FACodeResponse
+            {
+                Success = false,
+                ErrorMessage = "Google Two Factor PIN is expired or wrong!"
+            });
+        }
+    }
+    
+
 }
