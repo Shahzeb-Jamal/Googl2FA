@@ -26,37 +26,19 @@ $(document).ready(function() {
         loginForm[0].reset();
 
         // Store response in local storage
-        localStorage.setItem("username", response.token);
+        localStorage.setItem(username, response.token);
+
+
 
         // Show success message
         successMsg.removeClass("visually-hidden");
         errorMsg.addClass("visually-hidden");
 
-        // Send another request to get QR code URL if token exists
-        if (localStorage.getItem("username")) {
-          $.ajax({
-            url: 'https://localhost:7114/api/Users',
-            type: 'GET',
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem("username")
-            },
-            success: function(qrCodeResponse) {
-              console.log(qrCodeResponse);
-              // Redirect to the new page with QR code URL as a parameter
-              const qrCodeUrl = qrCodeResponse.qrCodeSetupImageUrl;
-              console.log(qrCodeUrl);
+        
 
-              //window.open(encodeURIComponent(qrCodeUrl));
+        // to navigate to home.html page
+        window.location.href = "Home.html?username="+username;
 
-              // window.location.href =  "https://"
-              // +qrCodeUrl;
-              window.location.href = "http://127.0.0.1:5501/UI/Home.html"
-            },
-            error: function(xhr, textStatus, error) {
-              // Handle error in fetching QR code URL
-            }
-          });
-        }
       },
       error: function(xhr, textStatus, error) {
         // Show error message
