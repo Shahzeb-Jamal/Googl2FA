@@ -56,7 +56,7 @@ public class UsersController : ControllerBase
             Success = true,
             ManualEntryKey = setupInfo.ManualEntryKey,
             QrCodeSetupImageUrl = setupInfo.QrCodeSetupImageUrl,
-            UserUniqueKey = UserUniqueKey,
+            //UserUniqueKey = UserUniqueKey,
             TwoFAStatus = userData.TwoFAStatus
         });
     }

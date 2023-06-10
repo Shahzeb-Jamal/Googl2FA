@@ -14,13 +14,24 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body>
-    <h1 id="welcome-text"></h1>
-    <img id="qr-code" scr="" width="300" height="300" />
-    <form action="submit">
-      <input type="text" name="CodeDigit" id="CodeDigit" />
-      <br />
-      <input type="submit" class="btn btn-success" />
-    </form>
+    <div class="alert alert-danger visually-hidden" role="alert" id="error-msg">
+      Google Two Factor PIN is expired or wrong!
+    </div>
+    <div
+      class="alert alert-success visually-hidden"
+      role="alert"
+      id="success-msg"
+    >
+      <h1 id="welcome-text"></h1>
+    </div>
+    <div class="qrCode">
+      <img id="qr-code" scr="" width="300" height="300" />
+      <form action="submit">
+        <input type="text" name="CodeDigit" id="CodeDigit" />
+        <br />
+        <input type="submit" class="btn btn-success" />
+      </form>
+    </div>
     <script src="Home.js"></script>
   </body>
 </html>
