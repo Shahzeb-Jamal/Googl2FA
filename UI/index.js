@@ -16,7 +16,7 @@ $(document).ready(function() {
     };
 
     $.ajax({
-      url: 'https://localhost:7114/api/Users/token',
+      url: 'http://localhost:8080/api/Users/token',
       type: 'POST',
       data: JSON.stringify(formData),
       contentType: "application/json",

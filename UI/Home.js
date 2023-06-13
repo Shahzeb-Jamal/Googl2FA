@@ -10,7 +10,7 @@ $(document).ready(function() {
     // Token exists
     // Perform any necessary operations with the token
     $.ajax({
-      url: 'https://localhost:7114/api/Users',
+      url: 'http://localhost:8080/api/Users',
       type: 'GET',
       headers: {
         Authorization: 'Bearer ' + token
@@ -38,7 +38,7 @@ $(document).ready(function() {
   
         // Make an AJAX request to the backend with the PIN and token
         $.ajax({
-          url: 'https://localhost:7114/api/Users/Validate2FACode',
+          url: 'http://localhost:8080/api/Users/Validate2FACode',
           type: 'POST',
           contentType: "application/json",
           dataType: 'json',
