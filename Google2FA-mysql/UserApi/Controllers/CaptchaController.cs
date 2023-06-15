@@ -17,9 +17,10 @@ namespace UserApi.Controllers
         public const int CaptchaLength = 6;
         public const int CaptchaExpirationMinutes = 10;
 
-       // private static readonly ConcurrentDictionary<string, CaptchaInfo> CaptchaDictionary = new ConcurrentDictionary<string, CaptchaInfo>();
-        private static readonly List<CaptchaInfo> captchaList = new List<CaptchaInfo>();
-
+        // private static readonly ConcurrentDictionary<string, CaptchaInfo> CaptchaDictionary = new ConcurrentDictionary<string, CaptchaInfo>();
+        // private static readonly List<CaptchaInfo> captchaList = new List<CaptchaInfo>();
+        private static readonly CaptchaPersistence CaptchaPersistence = new CaptchaPersistence();
+        
         [HttpGet]
         [Route("GetCaptcha")]
         public IActionResult GenerateCaptcha()
@@ -38,7 +39,8 @@ namespace UserApi.Controllers
             };
 
             //CaptchaDictionary.TryAdd(captchaId, captchaInfo);
-            captchaList.Add(captchaInfo);
+            //captchaList.Add(captchaInfo);
+            CaptchaPersistence.AddCaptcha(captchaInfo);
 
             var imagestream = new MemoryStream();
             captchaImage.Save(imagestream, ImageFormat.Png);
@@ -59,7 +61,7 @@ namespace UserApi.Controllers
         {
             var encryptedCaptcha = EncryptString(request.Captcha);
 
-            var captchaInfo = captchaList.Find(x => x.EncryptedCaptcha.Equals(encryptedCaptcha));
+            var captchaInfo = CaptchaPersistence.RetrieveCaptcha(encryptedCaptcha);
             if (captchaInfo != null)
             {
                 if (captchaInfo.ExpirationTime < DateTime.UtcNow)
@@ -70,9 +72,10 @@ namespace UserApi.Controllers
                 if (encryptedCaptcha == captchaInfo.EncryptedCaptcha)
                 {
                     // Remove matched item from list before retunring successful validation
-                    var itemtoremove = captchaList.Where(item => item.EncryptedCaptcha == encryptedCaptcha).First();
-                    captchaList.Remove(itemtoremove);
-
+                   // var itemtoremove = captchaList.Where(item => item.EncryptedCaptcha == encryptedCaptcha).First();
+                    // captchaList.Remove(itemtoremove);
+                    CaptchaPersistence.RemoveCaptcha(captchaInfo);
+                   
                     return Ok(new CaptchaValidationResponse
                     {
                         IsValid = true,
@@ -110,7 +113,6 @@ namespace UserApi.Controllers
             }
 
             return builder.ToString();
-            //return input;   
         }
 
         private Image GenerateCaptchaImage(string text)
@@ -131,5 +133,4 @@ namespace UserApi.Controllers
         }
     }
 }
-
 
