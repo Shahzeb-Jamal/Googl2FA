@@ -14,7 +14,6 @@
     />
     <link rel="stylesheet" href="index.css" type="text/css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jwt-decode/3.1.2/jwt-decode.min.js"></script>
 
     <title>Google2FA</title>
   </head>
@@ -52,7 +51,8 @@
           autocomplete="true"
           class="form-control mb-3"
         />
-        <img src="/captcha" alt="CAPTCHA Image" class="mb-3" />
+        <img src="" alt="CAPTCHA Image" class="mb-3" id="captcha-image" />
+
         <input
           type="text"
           id="captcha"
@@ -60,7 +60,8 @@
           placeholder="Enter CAPTCHA"
           class="form-control mb-3"
         />
-
+        <!-- Refresh Captcha button -->
+        <!-- <button id="refresh-captcha" type="button">Refresh Captcha</button> -->
         <button
           type="submit"
           id="btn-submit"

@@ -12,12 +12,13 @@ namespace UserApi.Controllers
     [ApiController]
     [Route("api/[controller]")]
     public class CaptchaController : ControllerBase
-        
-    {
-        private const int CaptchaLength = 6;
-        private const int CaptchaExpirationMinutes = 10;
 
-        private static readonly ConcurrentDictionary<string, CaptchaInfo> CaptchaDictionary = new ConcurrentDictionary<string, CaptchaInfo>();
+    {
+        public const int CaptchaLength = 6;
+        public const int CaptchaExpirationMinutes = 10;
+
+       // private static readonly ConcurrentDictionary<string, CaptchaInfo> CaptchaDictionary = new ConcurrentDictionary<string, CaptchaInfo>();
+        private static readonly List<CaptchaInfo> captchaList = new List<CaptchaInfo>();
 
         [HttpGet]
         [Route("GetCaptcha")]
@@ -27,39 +28,56 @@ namespace UserApi.Controllers
             var encryptedCaptcha = EncryptString(captchaText);
             var captchaImage = GenerateCaptchaImage(captchaText);
 
-            var captchaId = "f0cd5312-914b-49ad-9c7c-5caaec7f7d29";
+            // var captchaId = "f0cd5312-914b-49ad-9c7c-5caaec7f7d29";
             //var captchaId = Guid.NewGuid().ToString();
-            
+
             var captchaInfo = new CaptchaInfo
             {
                 EncryptedCaptcha = encryptedCaptcha,
                 ExpirationTime = DateTime.UtcNow.AddMinutes(CaptchaExpirationMinutes)
             };
 
-            CaptchaDictionary.TryAdd(captchaId, captchaInfo);
+            //CaptchaDictionary.TryAdd(captchaId, captchaInfo);
+            captchaList.Add(captchaInfo);
 
-            var stream = new MemoryStream();
-            captchaImage.Save(stream, ImageFormat.Png);
-            stream.Seek(0, SeekOrigin.Begin);
-        
-            return File(stream, "image/png");
+            var imagestream = new MemoryStream();
+            captchaImage.Save(imagestream, ImageFormat.Png);
+            imagestream.Seek(0, SeekOrigin.Begin);
+            var base64Image = Convert.ToBase64String(imagestream.ToArray());
+
+            return Ok(new CaptchaGenerationResponse
+            {
+               // CaptchaId = captchaId,
+                EncryptedCaptcha = encryptedCaptcha,
+                CaptchaImage = base64Image
+            });
         }
 
         [HttpPost]
         [Route("ValidateCaptcha")]
         public IActionResult ValidateCaptcha([FromBody] CaptchaValidationRequest request)
         {
-            if (CaptchaDictionary.TryRemove(request.CaptchaId, out var captchaInfo))
+            var encryptedCaptcha = EncryptString(request.Captcha);
+
+            var captchaInfo = captchaList.Find(x => x.EncryptedCaptcha.Equals(encryptedCaptcha));
+            if (captchaInfo != null)
             {
                 if (captchaInfo.ExpirationTime < DateTime.UtcNow)
                 {
                     return BadRequest("Captcha expired");
                 }
 
-                var encryptedCaptcha = EncryptString(request.Captcha);
                 if (encryptedCaptcha == captchaInfo.EncryptedCaptcha)
                 {
-                    return Ok("Captcha validation successful");
+                    // Remove matched item from list before retunring successful validation
+                    var itemtoremove = captchaList.Where(item => item.EncryptedCaptcha == encryptedCaptcha).First();
+                    captchaList.Remove(itemtoremove);
+
+                    return Ok(new CaptchaValidationResponse
+                    {
+                        IsValid = true,
+                        Message = "Captcha validation successful"
+                    });
                 }
             }
 
@@ -97,7 +115,7 @@ namespace UserApi.Controllers
 
         private Image GenerateCaptchaImage(string text)
         {
-            const int width = 200;
+            const int width = 250;
             const int height = 80;
 
             var image = new Bitmap(width, height);

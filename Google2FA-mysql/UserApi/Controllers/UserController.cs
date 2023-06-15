@@ -20,6 +20,7 @@ public class UsersController : ControllerBase
     private readonly Google2FAConfig _google2FAConfig;
     private readonly ILogger<UsersController> _logger;
     //private readonly TwoFactorAuthenticator _TwoFacAuth;
+    
 
     public UsersController(IJWTManagerRepository jWTManager, IUserRepository userRepository, ILogger<UsersController> logger, IOptions<Google2FAConfig> options)
     {
@@ -27,7 +28,7 @@ public class UsersController : ControllerBase
         this._userRepository = userRepository;
         this._logger = logger;
         this._google2FAConfig = options.Value;
-
+        
     }
 
     [HttpGet]
@@ -66,6 +67,7 @@ public class UsersController : ControllerBase
     [Route("token")]
     public IActionResult GetToken(GetJwtRequest request)
     {
+
         var token = _jWTManager.GetToken(request);
 
         if (token == null)
