@@ -50,7 +50,7 @@ namespace UserApi.Controllers
             return Ok(new CaptchaGenerationResponse
             {
                // CaptchaId = captchaId,
-                EncryptedCaptcha = encryptedCaptcha,
+                //EncryptedCaptcha = encryptedCaptcha,
                 CaptchaImage = base64Image
             });
         }
