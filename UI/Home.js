@@ -38,7 +38,7 @@ $(document).ready(function() {
   
         // Make an AJAX request to the backend with the PIN and token
         $.ajax({
-          url: 'http://localhost:8080/api/Users/Validate2FACode',
+          url: 'http://localhost/service/api/Users/Validate2FACode',
           type: 'POST',
           contentType: "application/json",
           dataType: 'json',
@@ -53,7 +53,7 @@ $(document).ready(function() {
             //console.log(response);
             $("#success-msg").removeClass("visually-hidden");
             $(".qrCode").addClass("visually-hidden");
-
+            $("#error-msg").addClass("visually-hidden");
             console.log("PIN verification successful");
             
 

@@ -8,7 +8,7 @@ $(document).ready(function() {
   // Function to generate and display captcha image
   function generateCaptchaImage() {
     $.ajax({
-      url: 'http://localhost:8080/api/Captcha/GetCaptcha',
+      url: 'http://localhost/service/api/Captcha/GetCaptcha',
       type: 'GET',
       success: function(captchaResponse) {
         const captcha = captchaResponse.captchaImage;
@@ -46,7 +46,7 @@ $(document).ready(function() {
 
     // Send captcha validation request
     $.ajax({
-      url: 'http://localhost:8080/api/Captcha/ValidateCaptcha',
+      url: 'http://localhost/service/api/Captcha/ValidateCaptcha',
       type: 'POST',
       data: JSON.stringify(capthaRequest),
       contentType: "application/json",
@@ -55,7 +55,7 @@ $(document).ready(function() {
         if (captchaValidationResponse.isValid) {
           // Captcha validated successfully, send user credentials validation request
           $.ajax({
-            url: 'http://localhost:8080/api/Users/token',
+            url: 'http://localhost/service/api/Users/token',
             type: 'POST',
             data: JSON.stringify(tokenRequest),
             contentType: "application/json",
