@@ -10,7 +10,7 @@ $(document).ready(function() {
     // Token exists
     // Perform any necessary operations with the token
     $.ajax({
-      url: 'http://localhost:8080/api/Users',
+      url: 'http://localhost/service/api/Users',
       type: 'GET',
       headers: {
         Authorization: 'Bearer ' + token
