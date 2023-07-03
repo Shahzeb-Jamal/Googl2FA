@@ -16,7 +16,7 @@ const Home = () => {
     const token = localStorage.getItem(username);
     console.log('Contact-Token:', token);
     axios
-      .get('https://localhost:7114/api/Users', {
+      .get('http://localhost/service/api/Users', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -41,7 +41,7 @@ const Home = () => {
     const token = localStorage.getItem(username);
     axios
       .post(
-        'https://localhost:7114/api/Users/Validate2FACode',
+        'http://localhost/service/api/Users/Validate2FACode',
         { Google2FACode: authenticationPin },
         {
           headers: {

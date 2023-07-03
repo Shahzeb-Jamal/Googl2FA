@@ -20,7 +20,7 @@ const Login = () => {
   const fetchCaptchaImage = async () => {
     try {
       const timestamp = Date.now(); // Get the current timestamp
-      const response = await axios.get(`https://localhost:7114/api/Captcha/GetCaptcha?timestamp=${timestamp}`);
+      const response = await axios.get(`http://localhost/service/api/Captcha/GetCaptcha?timestamp=${timestamp}`);
       const { captchaImage } = response.data;
       setCaptchaImage(captchaImage);
     } catch (error) {
@@ -33,7 +33,7 @@ const Login = () => {
     event.preventDefault();
   
     try {
-      const response = await axios.post('https://localhost:7114/api/Captcha/ValidateCaptcha', { captcha: captchaText });
+      const response = await axios.post('http://localhost/service/api/Captcha/ValidateCaptcha', { captcha: captchaText });
       const { isValid } = response.data;
       console.log('isValid:', isValid);
       
@@ -56,7 +56,7 @@ const Login = () => {
   
   const getToken = () => {
     axios
-      .post('https://localhost:7114/api/Users/token', {
+      .post('http://localhost/service/api/Users/token', {
         username,
         password,
       })
