@@ -19,8 +19,9 @@ const Login = () => {
 
   const fetchCaptchaImage = async () => {
     try {
-      const timestamp = Date.now(); // Get the current timestamp
-      const response = await axios.get(`http://localhost/service/api/Captcha/GetCaptcha?timestamp=${timestamp}`);
+      //const timestamp = Date.now(); // Get the current timestamp
+      //?timestamp=${timestamp}
+      const response = await axios.get('http://www.g2fa.com/service/api/Captcha/GetCaptcha');
       const { captchaImage } = response.data;
       setCaptchaImage(captchaImage);
     } catch (error) {
@@ -33,7 +34,7 @@ const Login = () => {
     event.preventDefault();
   
     try {
-      const response = await axios.post('http://localhost/service/api/Captcha/ValidateCaptcha', { captcha: captchaText });
+      const response = await axios.post('http://www.g2fa.com/service/api/Captcha/ValidateCaptcha', { captcha: captchaText });
       const { isValid } = response.data;
       console.log('isValid:', isValid);
       
@@ -56,7 +57,7 @@ const Login = () => {
   
   const getToken = () => {
     axios
-      .post('http://localhost/service/api/Users/token', {
+      .post('http://www.g2fa.com/service/api/Users/token', {
         username,
         password,
       })
