@@ -9,12 +9,15 @@ const qrcode = require('qrcode');
 const base64Img = require('base64-img');
 const speakeasy = require('speakeasy');
 const tokenUtils = require('./tokenUtils');
+const cors = require('cors')
 
 
 // Other configurations and middleware can go here
 const app = express();
 // Middleware for parsing JSON data
 app.use(bodyParser.json());
+app.use(cors());
+
 
 app.get('/api/captcha/GetCaptcha', async (req, res) => {
   const captchaLength = 6;
@@ -37,7 +40,7 @@ app.get('/api/captcha/GetCaptcha', async (req, res) => {
     const imageData = base64Image.replace(/^data:image\/png;base64,/, '');
 
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json({ CaptchaImage: imageData });
+    res.status(200).json({ captchaImage: imageData });
   } catch (error) {
     console.error('Error generating captcha:', error);
     res.status(500).json({ error: 'Error generating captcha' });
@@ -238,7 +241,7 @@ app.get('/api/Users', async(req, res) => {
           const base64QRCode = base64Img.base64Sync(filepath);
           // Set the content type header
           res.setHeader('Content-Type', 'application/json');
-          res.json({ qrCode: base64QRCode });
+          res.json({ qrCodeSetupImageUrl: base64QRCode });
         });
       });
   } catch (error) {
@@ -285,6 +288,7 @@ app.post('/api/Users/Validate2FACode', async(req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 
 
